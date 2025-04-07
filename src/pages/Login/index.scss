@@ -1,0 +1,43 @@
+
+.LoginPage-container {
+    padding: 0;
+    margin:0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../../assets/login.png') center/cover no-repeat;
+    .form-container {
+        width: 25rem;
+        height: 20rem;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 1rem;
+        padding-bottom: 4rem;
+        img {
+            width:13rem;
+            height: auto;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            input {
+                height:2.5rem;
+                padding-left: 1rem;
+                margin: 0.5rem;
+                border: 1px solid black;
+            }
+            button {
+                background-color: rgb(6, 117, 253);
+                color:white;
+                margin: 0.5rem;
+                height: 2.5rem;
+            }
+        }
+    }
+}

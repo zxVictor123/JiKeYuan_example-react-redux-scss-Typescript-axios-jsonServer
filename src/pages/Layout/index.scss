@@ -1,0 +1,51 @@
+.layoutPage-container {
+    border:6px solid orange;
+    background-color: rgb(49, 84, 188);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h1 {
+        color:white;
+        font-size: 12rem;
+    }
+    .box-container {
+        border: 5px solid orange;
+        width: 40%;
+        height: 40%;
+        background-color: rgb(9, 57, 231);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        .navigate-container {
+            width: 50%;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border:3px solid orange;
+            margin:5px;
+            background-color: blue;
+            button {
+                color:white;
+                background-color: orange;
+                border: none;
+                border-radius: 0.5rem;
+                width: 30%;
+                height: 20%;
+                &:hover {
+                    color: orange;
+                    background-color: rgb(12, 103, 239);
+                }
+                &:active {
+
+                }
+            }
+        }
+    }
+}
