@@ -8,7 +8,7 @@ const Layout: FC = () => {
     const navigate = useNavigate()
     return (
         <div className='layoutPage-container'>
-            <h1>Layout...</h1>
+            <h1>Layout<span className='point-1'>.</span><span className='point-2'>.</span><span className='point-3'>.</span></h1>
             <div className='box-container'>
                 <div className='navigate-container'>
                     <button onClick={() => navigate('/Login')}>登录</button>

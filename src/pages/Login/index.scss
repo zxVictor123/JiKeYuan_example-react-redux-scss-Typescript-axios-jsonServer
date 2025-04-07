@@ -1,3 +1,4 @@
+$common-border-radius: 0.5rem;
 
 .LoginPage-container {
     padding: 0;
@@ -31,12 +32,14 @@
                 padding-left: 1rem;
                 margin: 0.5rem;
                 border: 1px solid black;
+                border-radius: $common-border-radius;
             }
             button {
                 background-color: rgb(6, 117, 253);
                 color:white;
                 margin: 0.5rem;
                 height: 2.5rem;
+                border-radius: $common-border-radius;
             }
         }
     }

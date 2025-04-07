@@ -12,6 +12,15 @@
     h1 {
         color:white;
         font-size: 12rem;
+        .point-1 {
+            font-size: 16rem;
+        }
+        .point-2 {
+            font-size: 14rem;
+        }
+        .point-3 {
+            font-size: 12rem;
+        }
     }
     .box-container {
         border: 5px solid orange;
@@ -38,12 +47,15 @@
                 border-radius: 0.5rem;
                 width: 30%;
                 height: 20%;
+                transition: transform 0.3s ease;
                 &:hover {
                     color: orange;
-                    background-color: rgb(12, 103, 239);
+                    background-color: white;
+                    transform: scale(1.05);
                 }
                 &:active {
-
+                    transform: scale(0.95);
+                    color: white;
                 }
             }
         }
