@@ -34,6 +34,16 @@ $common-border-radius: 0.5rem;
                 border: 1px solid black;
                 border-radius: $common-border-radius;
             }
+            span {
+                color:red;
+                font-size: 0.8rem;
+                &.visible {
+                    display: inline;
+                }
+                &.hidden {
+                    display: none;
+                }
+            }
             button {
                 background-color: rgb(6, 117, 253);
                 color:white;

@@ -11,7 +11,7 @@ const Layout: FC = () => {
             <h1>Layout<span className='point-1'>.</span><span className='point-2'>.</span><span className='point-3'>.</span></h1>
             <div className='box-container'>
                 <div className='navigate-container'>
-                    <button onClick={() => navigate('/Login')}>登录</button>
+                    <button onClick={() => navigate('/register')}>注册</button>
                 </div>
             </div>
         </div>

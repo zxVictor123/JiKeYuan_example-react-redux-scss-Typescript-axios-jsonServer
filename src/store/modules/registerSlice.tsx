@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const loginSlice = createSlice(
+const registerSlice = createSlice(
     {
-        name: 'login',
+        name: 'register',
         initialState: {
             username: '',
             password: '',
+            isCheck: false,
         },
         reducers: {
             changeUsername: (state,action) => {
@@ -13,10 +14,13 @@ const loginSlice = createSlice(
             },
             changePassword: (state,action) => {
                 state.password = action.payload
-            }
+            },
+            trueCheck: (state) => {
+                state.isCheck = true
+            },
         }
     }
 )
-const {changeUsername,changePassword} = loginSlice.actions
-export {changeUsername,changePassword}
-export default loginSlice.reducer 
+const {changeUsername,changePassword,trueCheck} = registerSlice.actions
+export {changeUsername,changePassword,trueCheck}
+export default registerSlice.reducer 

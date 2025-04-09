@@ -1,5 +1,5 @@
 import Layout from "../pages/Layout";
-import Login from "../pages/Login"
+import Register from "../pages/Register"
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 
 const routes: RouteObject[] = [
@@ -8,8 +8,8 @@ const routes: RouteObject[] = [
         element: <Layout />
     },
     {
-        path: '/Login',
-        element: <Login /> 
+        path: '/Register',
+        element: <Register /> 
     }
 ];
 
