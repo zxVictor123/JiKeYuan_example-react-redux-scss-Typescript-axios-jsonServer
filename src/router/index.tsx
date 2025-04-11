@@ -1,16 +1,22 @@
 import Layout from "../pages/Layout";
 import Register from "../pages/Register"
+import Login from "../pages/Login";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 
 const routes: RouteObject[] = [
     {
         path: '/',
-        element: <Layout />
+        element: <Login />
     },
     {
         path: '/Register',
         element: <Register /> 
-    }
+    },
+    {
+        path: '/Layout',
+        element: <Layout />
+    },
+    
 ];
 
 /**

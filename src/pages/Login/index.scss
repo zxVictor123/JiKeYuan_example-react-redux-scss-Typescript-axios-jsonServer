@@ -1,6 +1,6 @@
 $common-border-radius: 0.5rem;
 
-.registerPage-container {
+.loginPage-container {
     padding: 0;
     margin:0;
     width: 100vw;
@@ -8,19 +8,15 @@ $common-border-radius: 0.5rem;
     background: url('../../assets/login.png') center/cover no-repeat;
     padding-bottom: 5rem;
     h1 {
-        position: absolute;
         color:rgb(6, 117, 253);
         writing-mode: vertical-lr;
         text-orientation: upright;
         font-family:'Courier New', Courier, monospace;
-        .text-1 {font-size: 6rem;}
-        .text-2 {font-size: 10rem;}
-        .text-3 {font-size: 5rem;}
-        .text-4 {font-size: 6rem;}
-        .text-5 {font-size: 5rem;}
-        .text-6 {font-size: 4rem;}
-        .text-7 {font-size: 6rem;}
-        .text-8 {font-size: 5rem;}
+        .text-1 {font-size: 8rem;}
+        .text-2 {font-size: 16rem;}
+        .text-3 {font-size: 7rem;}
+        .text-4 {font-size: 9rem;}
+        .text-5 {font-size: 7rem;}
     }
     .form-container {
         scale: (1.2);
@@ -52,34 +48,16 @@ $common-border-radius: 0.5rem;
                 border: 1px solid black;
                 border-radius: $common-border-radius;
             }
-            p {
-                color:red;
-                font-size: 0.8rem;
-                padding-left: 1rem;
-                &.visible {
-                    display: inline;
-                }
-                &.hidden {
-                    display: none;
-                }
-            }
             button {
                 margin: 0.5rem;
                 height: 2.5rem;
                 border-radius: $common-border-radius;
-                &.able {
-                    background-color: rgb(6, 117, 253);
-                    color:white;
-                    transition: transform ease 0.2s;
-                    &:hover {
-                        transform: scale(1.05);
-                    }
+                background-color: rgb(6, 117, 253);
+                color:white;
+                transition: transform ease 0.2s;
+                &:hover {
+                    transform: scale(1.05);
                 }
-                &.disable {
-                    background-color: rgb(213, 213, 213);
-                    color: gray;
-                }
-
             }
             a {
                 color: rgb(6, 117, 253);
@@ -101,5 +79,6 @@ $common-border-radius: 0.5rem;
         font-family:'Courier New', Courier, monospace;
         font-size: 10rem;
         letter-spacing: 4rem;
+
     }
 }

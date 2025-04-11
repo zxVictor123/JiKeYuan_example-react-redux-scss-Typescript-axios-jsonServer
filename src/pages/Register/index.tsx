@@ -97,6 +97,16 @@ const Register: FC = () => {
 
   return (
     <div className="registerPage-container">
+      <h1>
+        <span className='text-1'>R</span>
+        <span className='text-2'>E</span>
+        <span className='text-3'>G</span>
+        <span className='text-4'>I</span>
+        <span className='text-5'>S</span>
+        <span className='text-6'>T</span>
+        <span className='text-7'>E</span>
+        <span className='text-8'>R</span>
+      </h1>
       <div className="form-container">
         <img src={logo} alt="Logo" />
         <form>
@@ -121,8 +131,10 @@ const Register: FC = () => {
             密码长度为 8-20 个非空格字符，必须包含大小写字母和数字
           </p>
           <button onClick = {handleSubmit} type="submit" disabled = {isButtonDisable} className={isButtonDisable ? 'disable' : 'able'}>注册</button>
+          <a>已经有账号了？点击登录</a>
         </form>
       </div>
+      <h2>注册</h2>
     </div>
   );
 };
