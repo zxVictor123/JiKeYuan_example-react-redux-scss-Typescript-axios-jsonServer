@@ -9,7 +9,8 @@ const Login: FC = () => {
 
   // 防抖函数
   const debounce = <T extends unknown[]>(fn: (...args: T) => void, t: number) => {
-    let timer: number | null = null;
+    // 动态判断setTimeout在node环境和浏览器环境返回的类型
+    let timer: ReturnType<typeof setTimeout> | null = null;
     return (...args: T) => {
       if (timer) clearTimeout(timer);
       timer = setTimeout(() => fn(...args), t);
@@ -17,8 +18,8 @@ const Login: FC = () => {
   };
 
   // 正则表达式
-  const usernameRegex = /^[\s\S]{0,8}$/; // 0-8 位任意字符
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,16}$/; // 8-16 位，含大小写和数字
+  const usernameRegex = /^[\S]{0,8}$/; // 0-8 位非空格字符
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{8,16}$/; // 8-16 位非空格字符，必须含大小写和数字
 
   // 处理用户名输入变化
   const handleChangeUsername = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +61,7 @@ const Login: FC = () => {
             onFocus={handleFocused}
           />
           <p className={isUsernameInvalid ? 'visible' : 'hidden'}>
-            用户名必须是 1-8 位字符
+            用户名必须是 1-8 位非空格字符
           </p>
           <input
             type="password"
@@ -69,7 +70,7 @@ const Login: FC = () => {
             onFocus={handleFocused}
           />
           <p className={isPasswordInvalid ? 'visible' : 'hidden'}>
-            密码长度为 8-16 个字符，至少包含 1 个小写字母、1 个大写字母和 1 个数字
+            密码长度为 8-16 个非空格字符，必须包含大小写字母和数字
           </p>
           <button type="submit" disabled = {isButtonDisable} className={isButtonDisable ? 'disable' : 'able'}>注册</button>
         </form>
