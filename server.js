@@ -7,10 +7,6 @@ const middlewares = jsonServer.defaults();
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-// 将router应用到服务器，处理其他未定义的路由
-server.use(router)
-// 启动服务器，监听3001端口
-server.listen(3001,() => console.log('JSON Server is running on port 3001'))
 // 注册端点
 server.post('/register',(req,res) => {
 
@@ -37,7 +33,12 @@ server.post('/register',(req,res) => {
   const tokenRecord = {
     token,
     userId: newUser.id,
-    createAt: new Date().toISOString() //创建时间，格式为ISO字符串
+    createdAt: new Date().toISOString() //创建时间，格式为ISO字符串
   }
   db.get('tokens').push(tokenRecord).write()
+  
+  // 返回token给客户端
+  res.json({ token })
 })
+// 启动服务器，监听3001端口
+server.listen(3001,() => console.log('JSON Server is running on port 3001'))

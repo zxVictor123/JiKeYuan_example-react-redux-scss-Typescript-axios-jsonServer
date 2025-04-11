@@ -1,6 +1,6 @@
 $common-border-radius: 0.5rem;
 
-.LoginPage-container {
+.registerPage-container {
     padding: 0;
     margin:0;
     width: 100vw;
@@ -61,7 +61,7 @@ $common-border-radius: 0.5rem;
                     }
                 }
                 &.disable {
-                    background-color: rgb(233, 227, 227);
+                    background-color: rgb(213, 213, 213);
                     color: gray;
                 }
 
