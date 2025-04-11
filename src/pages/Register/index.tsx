@@ -1,57 +1,81 @@
-import { FC } from 'react';
-import logo from '../../assets/logo.png'
-import './index.scss'
-import { useDispatch,useSelector } from 'react-redux';
-import { changeUsername,changePassword,trueCheck} from '../../store/modules/registerSlice';
-import { rootState } from '../../store';
+import { FC, useState } from 'react';
+import logo from '../../assets/logo.png';
+import './index.scss';
 
 const Login: FC = () => {
-    // 解构hooks
-    const dispatch = useDispatch()
-    // 获取store中的数据
-    const {username,password,isCheck} = useSelector((state: rootState) => state.register)
-    // 封装一个防抖函数
-    const debounce = <T extends unknown[]>(fn: (...args: T) => void , t: number) => {
-        let timer: number | null = null;
-        return (...args: T) => {
-            if (timer) {
-                clearTimeout(timer)
-            }
-            timer = setTimeout(
-                () => {
-                    fn(...args)
-                },t
-            )
-        }
+  const [username, changeUsername] = useState('');
+  const [password, changePassword] = useState('');
+  const [hasFocused, setHasFocused] = useState(false);
+
+  // 防抖函数
+  const debounce = <T extends unknown[]>(fn: (...args: T) => void, t: number) => {
+    let timer: number | null = null;
+    return (...args: T) => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => fn(...args), t);
+    };
+  };
+
+  // 正则表达式
+  const usernameRegex = /^[\s\S]{0,8}$/; // 0-8 位任意字符
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,16}$/; // 8-16 位，含大小写和数字
+
+  // 处理用户名输入变化
+  const handleChangeUsername = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    changeUsername(value);
+  }, 300);
+
+  // 处理密码输入变化
+  const handleChangePassword = debounce((e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    changePassword(value);
+  }, 300);
+
+  // 处理聚焦事件
+  const handleFocused = () => {
+    if (!hasFocused) {
+      setHasFocused(true);
     }
-    // 创建与事件绑定的handle函数
-    const handleChangeUsername = debounce((value: string) => dispatch(changeUsername(value)),200)
-    const handleChangePassword = debounce((value: string) => dispatch(changePassword(value)),200)
-    const handleTrueCheck = () => dispatch(trueCheck())
-    // 规定用户名和密码字符串正则
-    const usernameRegex = /^[\s\S]{1,16}$/
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\w{8,16}$/
-    // 定义判定是否提示正则规定的三元表达式
-    const isusernameRagex = usernameRegex.test(username) ? 'hidden' : 'visible'
-    const ispasswordRagex = passwordRegex.test(password) ? 'hidden' : 'visible'
-    return (
-        <div className='LoginPage-container'>
-                <div className='form-container'>
-                    <img src={logo}></img>
-                    <form>
-                        <input type='username' placeholder='请输入账号' onChange={(event) => handleChangeUsername(event?.target.value)} onClick={handleTrueCheck}></input>
-                        {
-                            isCheck ? <span className={isusernameRagex}>必须由1 到 16位的字符组成</span> : null
-                        }
-                        <input type='password' placeholder='请输入密码' onChange={(event) => handleChangePassword(event?.target.value)} onClick={handleTrueCheck}></input>
-                        {
-                            isCheck ? <span className={ispasswordRagex}>必须包含大小写字母和数字，且只能由 8 到 16 位的字母，数字，和下划线组成</span> : null
-                        }
-                        <button>注册</button>
-                    </form>
-                </div>
-        </div>
-    )
-}
+  };
+
+  // 控制警告是否显示
+  let isUsernameInvalid = false
+  let isPasswordInvalid = false
+  isUsernameInvalid = hasFocused && (!usernameRegex.test(username) || username === '');
+  isPasswordInvalid = hasFocused && (!passwordRegex.test(password) || password === '');
+
+  // 控制按钮是否禁用
+  const isButtonDisable = isUsernameInvalid || isPasswordInvalid || !hasFocused
+
+  return (
+    <div className="LoginPage-container">
+      <div className="form-container">
+        <img src={logo} alt="Logo" />
+        <form>
+          <input
+            type="text" 
+            placeholder="请输入账号"
+            onChange={handleChangeUsername}
+            onFocus={handleFocused}
+          />
+          <p className={isUsernameInvalid ? 'visible' : 'hidden'}>
+            用户名必须是 1-8 位字符
+          </p>
+          <input
+            type="password"
+            placeholder="请输入密码"
+            onChange={handleChangePassword}
+            onFocus={handleFocused}
+          />
+          <p className={isPasswordInvalid ? 'visible' : 'hidden'}>
+            密码长度为 8-16 个字符，至少包含 1 个小写字母、1 个大写字母和 1 个数字
+          </p>
+          <button type="submit" disabled = {isButtonDisable} className={isButtonDisable ? 'disable' : 'able'}>注册</button>
+        </form>
+      </div>
+    </div>
+  );
+};
 
 export default Login;
