@@ -47,8 +47,8 @@ const Login = () => {
         console.log('响应中没有token')
       }
     } catch (error: any) {
-      console.log('注册失败',error)
-      const message = error.response?.data?.message || "注册失败，请重试！"
+      console.log('登录',error)
+      const message = error.response?.data?.message || "登录失败，请重试！"
       alert(message)
     }
   }
