@@ -13,6 +13,7 @@ $common-border-radius: 0.5rem;
     justify-content: space-around;
     align-items: center;
     h1 {
+        scale: (0.9);
         margin-top: 5rem;
         color:white;
         writing-mode: vertical-lr;
@@ -26,8 +27,8 @@ $common-border-radius: 0.5rem;
         .text-5 {font-size: 7rem;}
     }
     .form-container {
+        scale: (1.1);
         margin-top: 6rem;
-        scale: (1.2);
         width: 25rem;
         height: 20rem;
         background: white;
