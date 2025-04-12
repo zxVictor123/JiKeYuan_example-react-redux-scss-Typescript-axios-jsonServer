@@ -4,11 +4,13 @@ import './index.scss';
 import {request} from '../../../utils/request'
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../store/modules/userSlice';
+import { useNavigate } from 'react-router-dom';
+import debounce from '../../../utils/debounce'
 
 const Register: FC = () => {
-  // 获取react-redux函数
+  // 获取一些函数
   const dispatch = useDispatch()
-
+  const navigate = useNavigate()
   // 用useState管理仅本页面使用的局部状态
   const [username, changeUsername] = useState('');
   const [password, changePassword] = useState('');
@@ -17,16 +19,6 @@ const Register: FC = () => {
   // 使用ref引用输入框
   const usernameInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
-
-  // 防抖函数
-  const debounce = <T extends unknown[]>(fn: (...args: T) => void, t: number) => {
-    // 动态判断setTimeout在node环境和浏览器环境返回的类型
-    let timer: ReturnType<typeof setTimeout> | null = null;
-    return (...args: T) => {
-      if (timer) clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), t);
-    };
-  };
 
   // 正则表达式
   const usernameRegex = /^[\S]{1,8}$/; // 1-8 位非空格字符
@@ -66,7 +58,7 @@ const Register: FC = () => {
     if(isButtonDisable) return
     try {
       console.log('发送注册请求...')
-      const response = await request.post('/register',{
+      const response = await request.post('/Register',{
         username,
         password
       })
@@ -131,7 +123,7 @@ const Register: FC = () => {
             密码长度为 8-20 个非空格字符，必须包含大小写字母和数字
           </p>
           <button onClick = {handleSubmit} type="submit" disabled = {isButtonDisable} className={isButtonDisable ? 'disable' : 'able'}>注册</button>
-          <a>已经有账号了？点击登录</a>
+          <a onClick={() => navigate('/')}>已经有账号了？点击登录</a>
         </form>
       </div>
       <h2>注册</h2>

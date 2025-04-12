@@ -1,4 +1,5 @@
 // server.js
+const { message } = require('antd');
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
@@ -8,7 +9,7 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 // 注册端点
-server.post('/register',(req,res) => {
+server.post('/Register',(req,res) => {
 
   // 解构请求体
   const {username,password} = req.body
@@ -39,6 +40,35 @@ server.post('/register',(req,res) => {
   
   // 返回token给客户端
   res.json({ token })
+})
+// 登录端点
+server.post('/Login',(req,res) => {
+  const {username,password} = req.body
+  const db = router.db
+  // 验证输入
+  if (!username || !password) {
+    return res.status(400).json({message:'用户名和密码不能为空'})
+  }
+  // 查找用户并验证
+  const user = db.get('users').find({username}).value()
+  if(!user || user.password !== password) {
+    return res.status(401).json({message:'用户名或密码错误'})
+  }
+  // 生成新token并存储
+  const token = `token_${username}_${Date.now()}`
+  const tokenRecord = {
+    token,
+    userId: user.id,
+    createAt: new Date().toISOString()
+  }
+  db.get('tokens').push(tokenRecord).write()
+  res.json({
+    token,
+    user: {
+      id: user.id,
+      username: user.username
+    }
+  })
 })
 // 启动服务器，监听3001端口
 server.listen(3001,() => console.log('JSON Server is running on port 3001'))
