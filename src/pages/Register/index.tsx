@@ -129,7 +129,6 @@ const Register: FC = () => {
           <a onClick={() => navigate('/')}>已经有账号了？点击登录</a>
         </form>
       </div>
-      <h2>注册</h2>
     </div>
   );
 };

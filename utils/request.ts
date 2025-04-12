@@ -1,4 +1,6 @@
 import axios from "axios";
+import {getToken} from './token'
+
 // 创建axios实例并进行基础配置
 const request = axios.create(
     {
@@ -8,7 +10,14 @@ const request = axios.create(
 )
 // 添加请求拦截器
 request.interceptors.request.use(
-    (config) => { return config },
+    // 操作这个config,按后端要求注入token，使所有使用此实例的请求都带有token
+    (config) => {
+        const token = getToken()
+        if(token) {
+            config.headers.Authorization = `Bearer ${token}`
+        }
+        return config
+    },
     (error) => { return Promise.reject(error) }
 )
 // 添加响应拦截器

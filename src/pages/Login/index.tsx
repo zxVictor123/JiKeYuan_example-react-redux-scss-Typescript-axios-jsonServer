@@ -6,8 +6,7 @@ import {request} from '../../../utils/request'
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../store/modules/userSlice';
 import debounce from '../../../utils/debounce'
-import { message } from 'antd';
-
+import { message} from 'antd';
 const Login = () => {
   //获得一些函数
   const navigate = useNavigate()
@@ -16,7 +15,6 @@ const Login = () => {
   // 用useState管理局部变量
   const [username,changeUsername] = useState('')
   const [password,changePassword] = useState('')
-
   // 定义ref
   const usernameInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
@@ -92,7 +90,6 @@ const Login = () => {
               <a onClick={() => navigate('/Register')}>还没有账号？点击注册</a>
             </form>
           </div>
-          <h2>登录</h2>
         </div>
       );
 }

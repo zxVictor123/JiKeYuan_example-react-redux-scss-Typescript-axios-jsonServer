@@ -9,6 +9,7 @@ const userSlice = createSlice(
         reducers: {
             setToken: (state,action) => {
                 state.token = action.payload
+                localStorage.setItem('token_key',action.payload)
             }
         }
     }
