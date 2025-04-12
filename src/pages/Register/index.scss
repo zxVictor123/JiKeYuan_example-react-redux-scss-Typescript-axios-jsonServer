@@ -74,7 +74,7 @@ $common-border-radius: 0.5rem;
                     &:hover {
                         border:solid 1px rgb(6, 117, 253);
                         transform: scale(1.02);
-                        box-shadow: 0 0 1rem 0.2rem rgb(6, 117, 253);
+                        box-shadow: 0 0 0.5rem 0.2rem rgb(6, 117, 253);
                     }
                 }
                 &.disable {
