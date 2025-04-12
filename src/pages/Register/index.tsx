@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setToken } from '../../store/modules/userSlice';
 import { useNavigate } from 'react-router-dom';
 import debounce from '../../../utils/debounce'
+import { message } from 'antd';
 
 const Register: FC = () => {
   // 获取一些函数
@@ -69,7 +70,8 @@ const Register: FC = () => {
         console.log('获取到token:', token)
         dispatch(setToken(token))
         console.log('token已dispatch到Redux store')
-        alert('注册成功')
+        // 成功提示
+        message.success('注册成功');
         // 清空状态
         changeUsername('')
         changePassword('')
@@ -77,6 +79,7 @@ const Register: FC = () => {
         // 清空输入框的值
         if (usernameInputRef.current) usernameInputRef.current.value = '';
         if (passwordInputRef.current) passwordInputRef.current.value = '';
+        navigate('/Layout')
       } else {
         console.log('响应中没有token')
       }

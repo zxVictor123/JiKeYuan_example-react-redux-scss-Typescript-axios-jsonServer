@@ -6,6 +6,7 @@ import {request} from '../../../utils/request'
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../store/modules/userSlice';
 import debounce from '../../../utils/debounce'
+import { message } from 'antd';
 
 const Login = () => {
   //获得一些函数
@@ -33,12 +34,15 @@ const Login = () => {
         console.log('后端已经返回token')
         dispatch(setToken(token))
         console.log('token已dispatch到Redux store')
-        alert('登录成功')
+        // 成功提示
+        message.success('登录成功');
+        // 清空输入框
         changeUsername('')
         changePassword('')
         //清空输入框
-        if (usernameInputRef.current) usernameInputRef.current.value = ''
-        if (passwordInputRef.current) passwordInputRef.current.value = ''
+        if (usernameInputRef.current) usernameInputRef.current.value = '';
+        if (passwordInputRef.current) passwordInputRef.current.value = '';
+        navigate('/Layout')
       }else {
         console.log('响应中没有token')
       }
