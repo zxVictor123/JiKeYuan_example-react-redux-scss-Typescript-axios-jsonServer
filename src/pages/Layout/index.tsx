@@ -6,8 +6,13 @@ import publishIcon from '../../assets/publishIcon.svg'
 import logoutIcon from '../../assets/logout.svg'
 import './index.scss'
 import { useNavigate } from "react-router-dom"
+<<<<<<< HEAD
 import { useSelector } from "react-redux"
 import { rootState } from "../../store"
+=======
+import path from "path"
+
+>>>>>>> 3c3096b664394f4073abe2cc5cda4d14940717f6
 const items = [
     {
         label: '首页',
@@ -32,9 +37,12 @@ const Layout = () => {
     // 获取一些函数
     const navigate = useNavigate()
 
+<<<<<<< HEAD
     // 获取store中的数据
     const username = useSelector((state: rootState) => state.user.userInfo?.username)
 
+=======
+>>>>>>> 3c3096b664394f4073abe2cc5cda4d14940717f6
     return (
         <div className="layout-container">
             {/* 顶部导航栏 */}
