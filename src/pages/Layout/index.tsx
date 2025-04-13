@@ -6,7 +6,7 @@ import publishIcon from '../../assets/publishIcon.svg'
 import logoutIcon from '../../assets/logout.svg'
 import './index.scss'
 import { useNavigate } from "react-router-dom"
-import { useDispatch,useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { rootState } from "../../store"
 const items = [
     {
