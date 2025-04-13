@@ -6,8 +6,7 @@ import {request} from '../../../utils/request'
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../store/modules/userSlice';
 import debounce from '../../../utils/debounce'
-import { message } from 'antd';
-
+import { message} from 'antd';
 const Login = () => {
   //获得一些函数
   const navigate = useNavigate()
@@ -16,7 +15,6 @@ const Login = () => {
   // 用useState管理局部变量
   const [username,changeUsername] = useState('')
   const [password,changePassword] = useState('')
-
   // 定义ref
   const usernameInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
@@ -47,8 +45,8 @@ const Login = () => {
         console.log('响应中没有token')
       }
     } catch (error: any) {
-      console.log('注册失败',error)
-      const message = error.response?.data?.message || "注册失败，请重试！"
+      console.log('登录',error)
+      const message = error.response?.data?.message || "登录失败，请重试！"
       alert(message)
     }
   }
@@ -92,7 +90,6 @@ const Login = () => {
               <a onClick={() => navigate('/Register')}>还没有账号？点击注册</a>
             </form>
           </div>
-          <h2>登录</h2>
         </div>
       );
 }

@@ -1,6 +1,11 @@
 import Layout from "../pages/Layout";
 import Register from "../pages/Register"
 import Login from "../pages/Login";
+import Home from "../pages/Home";
+import Article from "../pages/Article";
+import Publish from "../pages/Publish";
+import AuthRoute from "../component/AuthRoute";
+
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 
 const routes: RouteObject[] = [
@@ -14,9 +19,22 @@ const routes: RouteObject[] = [
     },
     {
         path: '/Layout',
-        element: <Layout />
+        element: <AuthRoute><Layout /></AuthRoute>,
+        children: [
+            {
+                index: true,
+                element: <Home />
+            },
+            {
+                path: 'Article',
+                element: <Article />
+            },
+            {
+                path: 'Publish',
+                element: <Publish />
+            }
+        ]
     },
-    
 ];
 
 /**
