@@ -5,27 +5,36 @@ import articleIcon from '../../assets/articleIcon.svg'
 import publishIcon from '../../assets/publishIcon.svg'
 import logoutIcon from '../../assets/logout.svg'
 import './index.scss'
+import { useNavigate } from "react-router-dom"
+import path from "path"
+
 const items = [
     {
         label: '首页',
         key: 1,
-        icon: homeIcon
+        icon: homeIcon,
+        path: '',
     },
     {
         label: '文章管理',
         key: 2,
-        icon: articleIcon
+        icon: articleIcon,
+        path: 'article',
     },
     {
         label: '发布文章',
         key: 3,
-        icon: publishIcon
+        icon: publishIcon,
+        path: 'publish',
     }
 ]
 const Layout = () => {
-    
+    // 获取一些函数
+    const navigate = useNavigate()
+
     return (
         <div className="layout-container">
+            {/* 顶部导航栏 */}
             <div className="topNav-container">
                 <img src={logo} alt="" className="logo"/>
                 <div className="top-right-container">
@@ -36,18 +45,22 @@ const Layout = () => {
                     </div>
                 </div>
             </div>
+            {/* 底下区域 */}
             <div className="behind-container">
+                {/* 左侧边栏 */}
                 <div className="left-sidebar">
+                    {/* 渲染列表项 */}
                 {
                 items.map(
                     (item) => 
-                        <div className="item-container" key={item.key}>
+                        <div className="item-container" key={item.key} onClick={() => navigate(item.path)}>
                             <img className="item-icon" src={item.icon}></img>
                             <span className="item-label">{item.label}</span>
                         </div>
                 )
                 }
                 </div>
+                {/* 二级路由区 */}
                 <Outlet />
             </div>
         </div>        
