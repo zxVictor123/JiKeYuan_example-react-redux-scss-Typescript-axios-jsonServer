@@ -4,7 +4,7 @@ import './index.scss'
 import { useState,useRef } from 'react';
 import {request} from '../../../utils/request'
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../store/modules/userSlice';
+import { setToken,setUserInfo } from '../../store/modules/userSlice';
 import debounce from '../../../utils/debounce'
 import { message} from 'antd';
 const Login = () => {
@@ -27,11 +27,12 @@ const Login = () => {
         username,
         password
       })
-      const {token} = response.data
+      const {token,user} = response.data
       if(token) {
         console.log('后端已经返回token')
         dispatch(setToken(token))
         console.log('token已dispatch到Redux store')
+        dispatch(setUserInfo({username: user.username,id: user.id}))
         // 成功提示
         message.success('登录成功');
         // 清空输入框

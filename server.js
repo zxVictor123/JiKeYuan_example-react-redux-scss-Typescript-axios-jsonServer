@@ -57,7 +57,7 @@ server.post('/Login',(req,res) => {
   // 生成新token并存储
   const token = `token_${username}_${Date.now()}`
   const tokenRecord = {
-    token,
+    token: token,
     userId: user.id,
     createAt: new Date().toISOString()
   }
