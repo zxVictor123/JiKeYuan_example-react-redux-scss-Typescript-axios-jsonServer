@@ -1,0 +1,82 @@
+@import '../../../variables';
+
+.layout-container {
+    width: 100vw;
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    .topNav-container {
+        width: 100%;
+        height: 6rem;
+        background-color: black;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 3rem;
+        padding-right: 2rem;
+        .logo {
+            width: 10rem;
+            height: auto;
+        }
+        .top-right-container {
+            color:$text-color;
+            font-size: large;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            .username {
+
+            }
+            .logout-container {
+                display: flex;
+                align-items: center;
+                .logout-icon {
+                    width: 1.5rem;
+                    height: auto;
+                }
+
+                .logout-span {
+                    
+                }
+            }
+        }
+    }
+
+    .behind-container {
+        width: 100%;
+        flex: 1;
+        background-color: green;
+        display: flex;
+        .left-sidebar {
+            width: 14rem;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding-top: 1rem;
+            .item-container {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                padding-left: 1rem;
+                .item-icon {
+                    width: 2rem;
+                    height: auto;
+                }
+
+                .item-label {
+                    color: $text-color;
+                    font-size: large;
+                }
+
+                &.active {
+                }
+
+                &:hover {
+                }
+            }
+        }
+    }
+}
