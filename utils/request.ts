@@ -21,6 +21,7 @@ const request = axios.create(
  */
 request.interceptors.request.use(
     (config) => {
+        console.log('发送请求:', config.url, config.method, config.data)
         const token = getToken()
         if(token) {
             // 添加编码处理，避免非ASCII字符的问题
@@ -29,6 +30,7 @@ request.interceptors.request.use(
         return config
     },
     (error) => { 
+        console.error('请求错误:', error)
         return Promise.reject(error) 
     }
 )
@@ -40,6 +42,7 @@ request.interceptors.request.use(
  */
 request.interceptors.response.use(
     (response) => { 
+        console.log('收到响应:', response.config.url, response.status, response.data)
         // 如果响应中包含token，需要解码
         if(response.data && response.data.token) {
             response.data.token = decodeURIComponent(response.data.token)
@@ -47,6 +50,7 @@ request.interceptors.response.use(
         return response 
     },
     (error) => { 
+        console.error('响应错误:', error.config?.url, error.response?.status, error.response?.data)
         return Promise.reject(error) 
     }
 )

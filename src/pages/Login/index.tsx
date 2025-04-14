@@ -33,6 +33,7 @@ const Login = () => {
         dispatch(setToken(token))
         console.log('token已dispatch到Redux store')
         dispatch(setUserInfo({username: user.username,id: user.id}))
+        console.log('user已dispatch到store')
         // 成功提示
         message.success('登录成功');
         // 清空输入框

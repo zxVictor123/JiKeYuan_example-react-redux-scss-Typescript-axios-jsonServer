@@ -39,7 +39,13 @@ server.post('/Register',(req,res) => {
   db.get('tokens').push(tokenRecord).write()
   
   // 返回token给客户端
-  res.json({ token })
+  res.json({ 
+    token,
+    user: {
+      id: newUser.id,
+      username: newUser.username
+    }
+   })
 })
 // 登录端点
 server.post('/Login',(req,res) => {
@@ -47,21 +53,27 @@ server.post('/Login',(req,res) => {
   const db = router.db
   // 验证输入
   if (!username || !password) {
-    return res.status(400).json({message:'用户名和密码不能为空'})
+    return (
+      res.status(400).json({message:'用户名和密码不能为空'})
+    )
   }
   // 查找用户并验证
   const user = db.get('users').find({username}).value()
   if(!user || user.password !== password) {
-    return res.status(401).json({message:'用户名或密码错误'})
+    return (
+      res.status(401).json({message:'用户名或密码错误'})
+    )
   }
   // 生成新token并存储
   const token = `token_${username}_${Date.now()}`
   const tokenRecord = {
     token: token,
     userId: user.id,
-    createAt: new Date().toISOString()
+    createdAt: new Date().toISOString()
   }
   db.get('tokens').push(tokenRecord).write()
+  console.log('token已写入数据库')
+  // 返回数据
   res.json({
     token,
     user: {
@@ -69,6 +81,7 @@ server.post('/Login',(req,res) => {
       username: user.username
     }
   })
+  console.log('后端已返回数据')
 })
 // 启动服务器，监听3001端口
 server.listen(3001,() => console.log('JSON Server is running on port 3001'))

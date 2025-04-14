@@ -3,7 +3,7 @@ import logo from '../../assets/logo.png';
 import './index.scss';
 import {request} from '../../../utils/request'
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../store/modules/userSlice';
+import { setToken,setUserInfo } from '../../store/modules/userSlice';
 import { useNavigate } from 'react-router-dom';
 import debounce from '../../../utils/debounce'
 import { message } from 'antd';
@@ -65,11 +65,11 @@ const Register: FC = () => {
       })
       console.log('注册响应:', response.data)
       // 获取后端返回的token
-      const { token } = response.data
+      const { token,user } = response.data
       if(token) {
         console.log('获取到token:', token)
         dispatch(setToken(token))
-        console.log('token已dispatch到Redux store')
+        console.log('token已dispatch到store')
         // 成功提示
         message.success('注册成功');
         // 清空状态
@@ -82,6 +82,11 @@ const Register: FC = () => {
         navigate('/Layout')
       } else {
         console.log('响应中没有token')
+      }
+      if(user) {
+        console.log('获取到user',user)
+        dispatch(setUserInfo({username: user.username,id: user.id}))
+        console.log('user已dispatch到store')
       }
     } catch (error: any) {
       console.error('注册失败',error)
