@@ -1,9 +1,8 @@
 import axios from "axios";
 import {getToken} from './token'
+import { removeTokenUserInfo } from "../src/store/modules/userSlice";
+import router from "../src/router";
 
-/**
- * @description 创建axios实例并进行基础配置
- */
 const request = axios.create(
     {
         baseURL: 'http://localhost:3001',
@@ -14,11 +13,7 @@ const request = axios.create(
     }
 )
 
-/**
- * @description 添加请求拦截器
- * @param config - axios配置对象
- * @returns 处理后的配置对象
- */
+
 request.interceptors.request.use(
     (config) => {
         console.log('发送请求:', config.url, config.method, config.data)
@@ -29,17 +24,12 @@ request.interceptors.request.use(
         }
         return config
     },
-    (error) => { 
+    (error) => {
         console.error('请求错误:', error)
         return Promise.reject(error) 
     }
 )
 
-/**
- * @description 添加响应拦截器
- * @param response - axios响应对象
- * @returns 处理后的响应对象或错误
- */
 request.interceptors.response.use(
     (response) => { 
         console.log('收到响应:', response.config.url, response.status, response.data)
@@ -49,9 +39,14 @@ request.interceptors.response.use(
         }
         return response 
     },
-    (error) => { 
+    (error) => {
         console.error('响应错误:', error.config?.url, error.response?.status, error.response?.data)
-        return Promise.reject(error) 
+        // token失效时的处理
+        if(error.response.status == 401) {
+            removeTokenUserInfo()
+            router.navigate('/login')
+        }
+        return Promise.reject(error)
     }
 )
 
