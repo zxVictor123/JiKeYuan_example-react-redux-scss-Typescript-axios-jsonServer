@@ -1,6 +1,11 @@
 import  '../../../_variables.scss';
+import Chart from './component/chart';
 
 const Home = () => {
-    return <div>我是首页二级路由</div>
+    return(
+        <div>
+            <Chart title='三大框架满意度'/>
+        </div>
+    )
 }
 export default Home
