@@ -1,5 +1,5 @@
 import  '../../../_variables.scss';
-import Chart from './component/chart';
+import Chart from './component/Chart';
 
 const Home = () => {
     return(

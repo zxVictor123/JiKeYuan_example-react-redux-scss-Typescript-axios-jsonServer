@@ -3,10 +3,10 @@ import * as echarts from 'echarts';
 import { useEffect } from 'react';
 
 
-interface chartPropsType {
+interface ChartPropsType {
     title: string
 }
-const Chart:React.FC<chartPropsType> = ({title}) => {
+const Chart:React.FC<ChartPropsType> = ({title}) => {
     const chartRef = useRef<HTMLDivElement | null>(null)
 useEffect(() => {
 const chartDom = chartRef.current;

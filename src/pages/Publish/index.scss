@@ -1,0 +1,18 @@
+.publish-container {
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .Form-container {
+        .title,
+        .channel-select {
+            width: 30rem;
+        }
+        .picture-number-radio {
+
+        }
+        .content {
+            width: 60rem;
+        }
+    }
+}
