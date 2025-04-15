@@ -1,7 +1,7 @@
 import axios from "axios";
 import {getToken} from './token'
-import { removeTokenUserInfo } from "../src/store/modules/userSlice";
-import router from "../src/router";
+import { removeTokenUserInfo } from "../store/modules/userSlice";
+import router from "../router";
 
 const request = axios.create(
     {
@@ -13,22 +13,29 @@ const request = axios.create(
     }
 )
 
-
+// 请求拦截器
 request.interceptors.request.use(
     (config) => {
-        console.log('发送请求:', config.url, config.method, config.data)
-        const token = getToken()
-        if(token) {
-            // 添加编码处理，避免非ASCII字符的问题
-            config.headers.Authorization = `Bearer ${encodeURIComponent(token)}`
+        // 添加 token
+        const token = getToken();
+        if (token) {
+            config.headers.Authorization = `Bearer ${encodeURIComponent(token)}`;
         }
-        return config
+
+        // 添加请求日志
+        console.log('Request:', {
+            url: config.url,
+            method: config.method,
+            data: config.data,
+            headers: config.headers
+        });
+
+        return config;
     },
     (error) => {
-        console.error('请求错误:', error)
-        return Promise.reject(error) 
+        return Promise.reject(error);
     }
-)
+);
 
 request.interceptors.response.use(
     (response) => { 
@@ -37,7 +44,7 @@ request.interceptors.response.use(
         if(response.data && response.data.token) {
             response.data.token = decodeURIComponent(response.data.token)
         }
-        return response 
+        return response.data  // 返回 response.data 而不是整个 response
     },
     (error) => {
         console.error('响应错误:', error.config?.url, error.response?.status, error.response?.data)

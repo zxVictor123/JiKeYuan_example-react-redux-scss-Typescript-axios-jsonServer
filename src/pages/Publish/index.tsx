@@ -1,5 +1,4 @@
 import { Form,Input,Select,Button,Radio } from "antd"
-import { useState } from "react"
 import Quill from "../../component/Publish/Quill"
 import './index.scss'
 
@@ -10,7 +9,6 @@ import './index.scss'
 
 const Publish = () => {
     // 用useState管理局部状态
-    const [value,setValue] = useState('option3')
     return(
         <div className="publish-container">
             <Form className="Form-container">
@@ -47,7 +45,7 @@ const Publish = () => {
             <Form.Item 
             className="picture-number-radio"
             name={'picture-number-radio'}>
-                <Radio.Group value={value} onChange={(e) => setValue(e.target.value)}>
+                <Radio.Group defaultValue={'option3'}>
                     <Radio value={"option1"}>单图</Radio>
                     <Radio value={"option2"}>三图</Radio>
                     <Radio value={"option3"}>无图</Radio>
