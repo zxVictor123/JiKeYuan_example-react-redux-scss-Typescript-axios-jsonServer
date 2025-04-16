@@ -9,8 +9,13 @@ import store from './store'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Provider store={store}> {/* 包裹 RouterProvider */}
-      <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider 
+      future={{
+    v7_startTransition: true,
+    v7_relativeSplatPath: true
+  }} 
+  router={router} />
     </Provider>
   </StrictMode>,
 )

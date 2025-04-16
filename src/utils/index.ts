@@ -1,5 +1,4 @@
-// 统一中转工具模块
-
-import { request } from "./axiosInstance";
-
-export {request}
+// 统一导出工具模块
+export * from './request';
+export * from './token';
+export * from './debounce';

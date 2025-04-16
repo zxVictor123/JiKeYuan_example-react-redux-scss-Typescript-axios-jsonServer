@@ -6,7 +6,7 @@ import { setToken, setUserInfo } from '../../store/modules/userSlice';
 import { useNavigate } from 'react-router-dom';
 import debounce from '../../utils/debounce'
 import { message } from 'antd';
-import { authAPI } from '../../api/auth';
+import { authApi } from '../../api/auth';
 import type { RegisterParams } from '../../types/api';
 
 const Register: FC = () => {
@@ -62,7 +62,7 @@ const Register: FC = () => {
         
         try {
             const registerParams: RegisterParams = { username, password };
-            const response = await authAPI.register(registerParams);
+            const response = await authApi.register(registerParams);
             
             if (response.token) {
                 dispatch(setToken(response.token))

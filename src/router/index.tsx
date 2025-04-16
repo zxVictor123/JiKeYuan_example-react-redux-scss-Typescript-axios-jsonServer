@@ -4,7 +4,7 @@ import Login from "../pages/Login";
 import Home from "../pages/Home";
 import Article from "../pages/Article";
 import Publish from "../pages/Publish";
-import AuthRoute from "../component/AuthRoute";
+import AuthRouteGuard from "../components/AuthRouteGuard";
 
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 
@@ -19,7 +19,7 @@ const routes: RouteObject[] = [
     },
     {
         path: '/Layout',
-        element: <AuthRoute><Layout /></AuthRoute>,
+        element: <AuthRouteGuard><Layout /></AuthRouteGuard>,
         children: [
             {
                 index: true,
@@ -37,9 +37,10 @@ const routes: RouteObject[] = [
     },
 ];
 
-/**
- * 创建路由实例
- */
-const router = createBrowserRouter(routes);
+const router = createBrowserRouter(routes, {
+    future: {
+        v7_relativeSplatPath: true
+    }
+});
 
 export default router; 

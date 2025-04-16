@@ -1,87 +1,140 @@
-// server.js
-const { message } = require('antd');
+/**
+ * 模拟后端服务器
+ * @author [您的名字]
+ */
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
 const middlewares = jsonServer.defaults();
 
+// 中间件配置
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-// 注册端点
-server.post('/Register',(req,res) => {
+/**
+ * 生成用户 token
+ * @param {string} username - 用户名
+ * @returns {string} token
+ */
+const generateToken = (username) => `token_${username}_${Date.now()}`;
 
-  // 解构请求体
-  const {username,password} = req.body
-  // 结构db文件模拟数据库
-  const db = router.db
-  // 验证用户名和密码是否为空，如果为空，返回 400 状态码和错误信息
-  if (!username || !password) {
-    return res.status(400).json({ message: '用户名或密码不能为空' });
-  }
-  // 检测是否重名
-  const existingUser = db.get('users').find({username}).value()
-  if (existingUser) {
-    return res.status(400).json({message: '用户名已存在'})
-  }
-
-  // 创建新用户对象并添加至users并写入json文件
-  const newUser = {id: Date.now(),username,password}
-  db.get('users').push(newUser).write()
-
-  // 处理token的产生，存储，返回
-  const token = `token_${username}_${Date.now()}`
-  const tokenRecord = {
+/**
+ * 创建 token 记录
+ * @param {string} token - token字符串
+ * @param {number} userId - 用户ID
+ * @returns {Object} token记录对象
+ */
+const createTokenRecord = (token, userId) => ({
     token,
-    userId: newUser.id,
-    createdAt: new Date().toISOString() //创建时间，格式为ISO字符串
-  }
-  db.get('tokens').push(tokenRecord).write()
-  
-  // 返回token给客户端
-  res.json({ 
-    token,
-    user: {
-      id: newUser.id,
-      username: newUser.username
-    }
-   })
-})
-// 登录端点
-server.post('/Login',(req,res) => {
-  const {username,password} = req.body
-  const db = router.db
-  // 验证输入
-  if (!username || !password) {
-    return (
-      res.status(400).json({message:'用户名和密码不能为空'})
-    )
-  }
-  // 查找用户并验证
-  const user = db.get('users').find({username}).value()
-  if(!user || user.password !== password) {
-    return (
-      res.status(401).json({message:'用户名或密码错误'})
-    )
-  }
-  // 生成新token并存储
-  const token = `token_${username}_${Date.now()}`
-  const tokenRecord = {
-    token: token,
-    userId: user.id,
+    userId,
     createdAt: new Date().toISOString()
-  }
-  db.get('tokens').push(tokenRecord).write()
-  console.log('token已写入数据库')
-  // 返回数据
-  res.json({
-    token,
-    user: {
-      id: user.id,
-      username: user.username
+});
+
+/**
+ * 验证用户输入
+ * @param {string} username - 用户名
+ * @param {string} password - 密码
+ * @returns {string|null} 错误信息或null
+ */
+const validateUserInput = (username, password) => {
+    if (!username || !password) {
+        return '用户名或密码不能为空';
     }
-  })
-  console.log('后端已返回数据')
-})
-// 启动服务器，监听3001端口
-server.listen(3001,() => console.log('JSON Server is running on port 3001'))
+    return null;
+};
+
+// 注册接口
+server.post('/Register', (req, res) => {
+    const { username, password } = req.body;
+    const db = router.db;
+
+    // 输入验证
+    const validationError = validateUserInput(username, password);
+    if (validationError) {
+        return res.status(400).json({ 
+            code: 400,
+            message: validationError 
+        });
+    }
+
+    // 检查用户是否存在
+    const existingUser = db.get('users').find({ username }).value();
+    if (existingUser) {
+        return res.status(400).json({
+            code: 400,
+            message: '用户名已存在'
+        });
+    }
+
+    // 创建新用户
+    const newUser = {
+        id: Date.now(),
+        username,
+        password
+    };
+    db.get('users').push(newUser).write();
+
+    // 生成token
+    const token = generateToken(username);
+    const tokenRecord = createTokenRecord(token, newUser.id);
+    db.get('tokens').push(tokenRecord).write();
+
+    // 返回成功响应
+    res.json({
+        code: 200,
+        data: {
+            token,
+            user: {
+                id: newUser.id,
+                username: newUser.username
+            }
+        }
+    });
+});
+
+// 登录接口
+server.post('/Login', (req, res) => {
+    const { username, password } = req.body;
+    const db = router.db;
+
+    // 输入验证
+    const validationError = validateUserInput(username, password);
+    if (validationError) {
+        return res.status(400).json({
+            code: 400,
+            message: validationError
+        });
+    }
+
+    // 验证用户
+    const user = db.get('users').find({ username }).value();
+    if (!user || user.password !== password) {
+        return res.status(401).json({
+            code: 401,
+            message: '用户名或密码错误'
+        });
+    }
+
+    // 生成token
+    const token = generateToken(username);
+    const tokenRecord = createTokenRecord(token, user.id);
+    db.get('tokens').push(tokenRecord).write();
+
+    // 返回成功响应
+    res.json({
+        code: 200,
+        data: {
+            token,
+            user: {
+                id: user.id,
+                username: user.username
+            }
+        }
+    });
+});
+
+// 启动服务器
+const PORT = 3001;
+server.listen(PORT, () => {
+    console.log(`JSON Server is running on port ${PORT}`);
+});

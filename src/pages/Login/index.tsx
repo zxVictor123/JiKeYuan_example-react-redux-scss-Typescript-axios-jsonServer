@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setToken, setUserInfo } from '../../store/modules/userSlice';
 import debounce from '../../utils/debounce'
 import { message } from 'antd';
-import { authAPI } from '../../api/auth';
+import { authApi } from '../../api/auth';
 import type { LoginParams } from '../../types/api';
 
 const Login = () => {
@@ -26,7 +26,7 @@ const Login = () => {
         e.preventDefault()
         try {
             const loginParams: LoginParams = { username, password };
-            const response = await authAPI.login(loginParams);
+            const response = await authApi.login(loginParams);
             
             if (response.token) {
                 dispatch(setToken(response.token))

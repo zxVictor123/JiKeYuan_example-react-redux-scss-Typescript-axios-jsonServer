@@ -1,17 +1,19 @@
-import { Form,Input,Select,Button,Radio } from "antd"
-import Quill from "../../component/Publish/Quill"
+import { Form, Input, Select, Button, Radio } from "antd"
 import './index.scss'
-
-
-
+import Quill from "../../components/Publish/Quill"
 
 
 
 const Publish = () => {
-    // 用useState管理局部状态
+    // 用useForm管理初始值
+    const [form] = Form.useForm()
+
     return(
         <div className="publish-container">
-            <Form className="Form-container">
+            <Form 
+            form = {form}
+            className="Form-container"
+            initialValues={{'picture-number-radio': 'option3'}}>
             {/* 标题框 */}
             <Form.Item 
             label= {'标题'}
@@ -36,7 +38,7 @@ const Publish = () => {
                     {value: 'React',label: 'React'},
                     {value: 'Vue',label: 'Vue'},
                     {value: 'Javascript',label: 'Javascript'},
-                    {value: 'Css',label: 'Css'},
+                    {value: 'CSS',label: 'CSS'},
                     {value: 'Tailwind css',label: 'Tailwind css'},
                     {value: 'Next.js',label: 'Next.js'}
                 ]}/>
@@ -45,7 +47,7 @@ const Publish = () => {
             <Form.Item 
             className="picture-number-radio"
             name={'picture-number-radio'}>
-                <Radio.Group defaultValue={'option3'}>
+                <Radio.Group>
                     <Radio value={"option1"}>单图</Radio>
                     <Radio value={"option2"}>三图</Radio>
                     <Radio value={"option3"}>无图</Radio>
@@ -59,7 +61,7 @@ const Publish = () => {
             required= {true}>
                 <Quill />
             </Form.Item>
-            <Form.Item>
+            <Form.Item className="Button">
                 <Button type="primary" htmlType="submit">发布文章</Button>
             </Form.Item>
         </Form>
