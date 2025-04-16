@@ -9,7 +9,8 @@ export interface LoginParams {
 export interface RegisterParams extends LoginParams {}
 
 export interface UserInfo {
-    id: number;headers: {
+    id: number;
+    headers: {
         'Content-Type': 'application/json;charset=UTF-8'  // 请求头
     }
     username: string;

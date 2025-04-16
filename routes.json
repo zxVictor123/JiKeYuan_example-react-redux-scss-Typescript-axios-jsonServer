@@ -1,0 +1,4 @@
+{
+  "/Login": "/users?username=:username",
+  "/Register": "/users"
+} 

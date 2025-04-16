@@ -5,10 +5,7 @@ import { authApi } from '../api/auth';
 import { setToken, setUserInfo } from '../store/modules/userSlice';
 import type { LoginParams, RegisterParams } from '../types/api';
 
-/**
- * 认证相关的 Hook
- * @returns 认证相关的状态和方法
- */
+
 export const useAuth = () => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);

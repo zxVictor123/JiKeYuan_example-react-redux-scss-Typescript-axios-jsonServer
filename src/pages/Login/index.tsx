@@ -3,11 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './index.scss'
 import { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { setToken, setUserInfo } from '../../store/modules/userSlice';
 import debounce from '../../utils/debounce'
 import { message } from 'antd';
-import { authApi } from '../../api/auth';
-import type { LoginParams } from '../../types/api';
 
 const Login = () => {
     // 获取一些函数
@@ -24,27 +21,7 @@ const Login = () => {
     // 处理提交表单 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        try {
-            const loginParams: LoginParams = { username, password };
-            const response = await authApi.login(loginParams);
-            
-            if (response.token) {
-                dispatch(setToken(response.token))
-                dispatch(setUserInfo(response.user))
-                message.success('登录成功');
-                
-                // 清空输入框
-                changeUsername('')
-                changePassword('')
-                if (usernameInputRef.current) usernameInputRef.current.value = '';
-                if (passwordInputRef.current) passwordInputRef.current.value = '';
-                
-                navigate('/Layout')
-            }
-        } catch (error) {
-            // 错误处理已经在 errorHandler 中统一处理
-            console.error('登录失败:', error)
-        }
+        
     }
 
     // 处理用户名输入变化

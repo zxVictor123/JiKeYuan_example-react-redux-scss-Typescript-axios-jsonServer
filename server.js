@@ -44,7 +44,7 @@ const validateUserInput = (username, password) => {
 };
 
 // 注册接口
-server.post('/Register', (req, res) => {
+server.post('/register', (req, res) => {
     const { username, password } = req.body;
     const db = router.db;
 
@@ -93,7 +93,7 @@ server.post('/Register', (req, res) => {
 });
 
 // 登录接口
-server.post('/Login', (req, res) => {
+server.post('/login', (req, res) => {
     const { username, password } = req.body;
     const db = router.db;
 
