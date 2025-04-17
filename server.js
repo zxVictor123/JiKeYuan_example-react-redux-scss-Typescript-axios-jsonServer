@@ -11,31 +11,17 @@ const middlewares = jsonServer.defaults();
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-/**
- * 生成用户 token
- * @param {string} username - 用户名
- * @returns {string} token
- */
+// 生成用户 token
 const generateToken = (username) => `token_${username}_${Date.now()}`;
 
-/**
- * 创建 token 记录
- * @param {string} token - token字符串
- * @param {number} userId - 用户ID
- * @returns {Object} token记录对象
- */
+// 创建 token 记录
 const createTokenRecord = (token, userId) => ({
     token,
     userId,
     createdAt: new Date().toISOString()
 });
 
-/**
- * 验证用户输入
- * @param {string} username - 用户名
- * @param {string} password - 密码
- * @returns {string|null} 错误信息或null
- */
+// 验证用户输入
 const validateUserInput = (username, password) => {
     if (!username || !password) {
         return '用户名或密码不能为空';
@@ -43,10 +29,12 @@ const validateUserInput = (username, password) => {
     return null;
 };
 
+// 数据库
+const db = router.db
+
 // 注册接口
 server.post('/register', (req, res) => {
     const { username, password } = req.body;
-    const db = router.db;
 
     // 输入验证
     const validationError = validateUserInput(username, password);
@@ -130,6 +118,15 @@ server.post('/login', (req, res) => {
                 username: user.username
             }
         }
+    });
+});
+
+// 获取频道接口
+server.get('/channel', (req, res) => {
+    const channels = db.get('channel').value();
+    res.json({
+        code: 200,
+        data: channels
     });
 });
 

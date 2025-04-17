@@ -1,12 +1,30 @@
 import { Form, Input, Select, Button, Radio } from "antd"
 import './index.scss'
 import Quill from "../../components/Publish/Quill"
+import { useState, useEffect } from "react"
+import { channelApi } from "../../api/channel"
 
 
 
 const Publish = () => {
     // 用useForm管理初始值
     const [form] = Form.useForm()
+    // 频道列表状态
+    const [channels, setChannels] = useState<string[]>([])
+    
+    // 获取频道列表
+    useEffect(() => {
+        const fetchChannels = async () => {
+            try {
+                const res = await channelApi.getChannel()
+                setChannels(res.data || [])
+            } catch (error) {
+                console.error('获取频道失败:', error)
+            }
+        }
+        
+        fetchChannels()
+    }, [])
 
     return(
         <div className="publish-container">
@@ -34,14 +52,10 @@ const Publish = () => {
             rules={[{required: true,message: '频道不能为空'}]}>
                 <Select
                 placeholder= {'请选择文章频道'}
-                options={[
-                    {value: 'React',label: 'React'},
-                    {value: 'Vue',label: 'Vue'},
-                    {value: 'Javascript',label: 'Javascript'},
-                    {value: 'CSS',label: 'CSS'},
-                    {value: 'Tailwind css',label: 'Tailwind css'},
-                    {value: 'Next.js',label: 'Next.js'}
-                ]}/>
+                options={channels.map(channel => ({
+                    value: channel,
+                    label: channel
+                }))}/>
             </Form.Item >
             {/* 图片数量复选框 */}
             <Form.Item 
