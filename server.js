@@ -11,6 +11,9 @@ const middlewares = jsonServer.defaults();
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
+// 数据库
+const db = router.db
+
 // 生成用户 token
 const generateToken = (username) => `token_${username}_${Date.now()}`;
 
@@ -23,14 +26,13 @@ const createTokenRecord = (token, userId) => ({
 
 // 验证用户输入
 const validateUserInput = (username, password) => {
+    // 只检查用户名和密码是否提供，其他验证由前端完成
     if (!username || !password) {
         return '用户名或密码不能为空';
     }
     return null;
 };
 
-// 数据库
-const db = router.db
 
 // 注册接口
 server.post('/register', (req, res) => {
@@ -94,12 +96,20 @@ server.post('/login', (req, res) => {
         });
     }
 
-    // 验证用户
+    // 验证用户存在
     const user = db.get('users').find({ username }).value();
-    if (!user || user.password !== password) {
+    if (!user) {
         return res.status(401).json({
             code: 401,
-            message: '用户名或密码错误'
+            message: '用户不存在'
+        });
+    }
+    
+    // 验证密码正确
+    if (user.password !== password) {
+        return res.status(401).json({
+            code: 401,
+            message: '密码错误'
         });
     }
 
@@ -121,11 +131,11 @@ server.post('/login', (req, res) => {
     });
 });
 
-server.get('channel',(req,res) => {
-    const channels = db.get('channel').value()
-    db.json({
+server.get('/channel',(req,res) => {
+    const channel = db.get('channel').value()
+    res.json({
         code: 200,
-        data: channels
+        channel: channel
     })
 })
 

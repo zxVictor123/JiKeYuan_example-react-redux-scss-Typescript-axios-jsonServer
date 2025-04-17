@@ -22,12 +22,8 @@ const Login = () => {
       return;
     }
 
-    try {
-      await login({ username, password });
-      // 不需要手动 navigate，useAuth 已经处理了跳转
-    } catch (error) {
-      console.error("登录错误:", error); // 仅记录错误，错误提示已在 useAuth 中处理
-    }
+    // 直接调用login，不需要try/catch，useAuth内部已处理所有错误情况
+    login({ username, password });
   };
 
   const handleChangeUsername = debounce((e: React.ChangeEvent<HTMLInputElement>) => {

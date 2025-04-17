@@ -17,7 +17,7 @@ const Publish = () => {
         const fetchChannels = async () => {
             try {
                 const res = await channelApi.getChannel()
-                setChannels(res.data || [])
+                setChannels(res)
             } catch (error) {
                 console.error('获取频道失败:', error)
             }

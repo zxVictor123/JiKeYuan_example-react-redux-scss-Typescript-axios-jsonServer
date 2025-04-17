@@ -9,7 +9,7 @@ interface AuthRouteProps {
 
 const AuthRoute: FC<AuthRouteProps> = ({
   children,
-  redirectTo = '/Login'
+  redirectTo = '/'
 }) => {
   const location = useLocation()
   const token = getToken()

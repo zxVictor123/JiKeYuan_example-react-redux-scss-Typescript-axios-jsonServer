@@ -1,4 +1,4 @@
-import { LoginParams, RegisterParams } from "../types/api";
+import { LoginParams, RegisterParams, AuthResponse, AuthErrorResponse } from "../types/api";
 import { authApi } from "../api/auth";
 import { useDispatch } from "react-redux";
 import { setUserInfo, setToken } from "../store/modules/userSlice";
@@ -15,20 +15,27 @@ const useAuth = () => {
     setLoading(true);
     try {
       const response = await authApi.login(values);
-      if(response) {
-        console.log('从后端获取数据成功')
+      
+      // 判断响应是否包含token和user，以确定是否为成功响应
+      if ('token' in response && 'user' in response) {
+        // 成功响应
+        console.log('从后端获取数据成功');
         dispatch(setToken(response.token));
         dispatch(setUserInfo(response.user));
-        console.log('成功dispatch数据到store中')
-      }else {
-        console.log('从后端获取数据失败')
+        console.log('成功dispatch数据到store中');
+        message.success("登录成功！");
+        navigate("/layout"); // 登录成功后自动跳转
+      } else {
+        // 错误响应
+        const errorResp = response;
+        message.error(`登录失败: ${errorResp.message}`);
+        setLoading(false); // 确保在这里也重置loading状态
+        return; // 提前返回，不执行后续代码
       }
-      
-      message.success("登录成功！");
-      navigate("/layout"); // 登录成功后自动跳转
-    } catch (error: any) {
+    }
+    catch (error: any) {
       message.error(`登录失败: ${error.message}`);
-      throw error;
+      // 不抛出错误，让函数正常结束
     } finally {
       setLoading(false);
     }
@@ -43,14 +50,16 @@ const useAuth = () => {
           dispatch(setToken(response.token));
           dispatch(setUserInfo(response.user));
           console.log('成功dispatch数据到store中')
+          message.success("注册成功！");
+          navigate("/layout"); // 注册成功后跳转
         }else {
           console.log('从后端获取数据失败')
+          message.error("注册失败！");
+          return; // 提前返回
         }
-      message.success("注册成功！");
-      navigate("/layout"); // 注册成功后跳转
     } catch (error: any) {
       message.error(`注册失败: ${error.message}`);
-      throw error;
+      // 不抛出错误
     } finally {
       setLoading(false);
     }

@@ -1,4 +1,4 @@
-import { LoginParams, RegisterParams, AuthResponse } from "../types/api"
+import { LoginParams, RegisterParams, AuthResponse,AuthErrorResponse } from "../types/api"
 import { request } from "../utils"
 
 /**
@@ -10,8 +10,8 @@ export const authApi = {
      * @param data 登录参数
      * @returns 认证响应Promise
      */
-    login: (data: LoginParams): Promise<AuthResponse> => {
-        return request.post<LoginParams, AuthResponse>('/login', data)
+    login: (data: LoginParams): Promise<AuthResponse | AuthErrorResponse> => {
+        return request.post<LoginParams, AuthResponse | AuthErrorResponse>('/login', data)
     },
 
     /**

@@ -54,6 +54,13 @@ $common-border-radius: 0.5rem;
                 border: 1px solid black;
                 border-radius: $common-border-radius;
             }
+            .error-message {
+                color: red;
+                font-size: 0.9rem;
+                margin: 0 0.5rem 0.5rem;
+                padding: 0 0.5rem;
+                text-align: left;
+            }
             button {
                 margin: 0.5rem;
                 height: 2.5rem;

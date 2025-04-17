@@ -21,7 +21,7 @@ const Register: FC = () => {
     const passwordInputRef = useRef<HTMLInputElement>(null);
 
     // 正则表达式
-    const usernameRegex = /^[\S]{1,8}$/; // 1-8 位非空格字符
+    const usernameRegex = /^^[A-Za-z0-9]{1,8}$/; // 1-8 位数字和字母
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)\S{8,20}$/; // 8-20 位非空格字符，必须含大小写和数字
 
     // 处理用户名输入变化
@@ -92,7 +92,7 @@ const Register: FC = () => {
                         ref={usernameInputRef}
                     />
                     <p className={isUsernameInvalid ? 'visible' : 'hidden'}>
-                        用户名必须是 1-8 位非空格字符
+                        账号必须是 1-8 位数字和字母
                     </p>
                     <input
                         type="password"

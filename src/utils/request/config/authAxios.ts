@@ -75,21 +75,10 @@ instance.interceptors.response.use(
         // 统一错误处理
         if (error.response?.status === 401) {
             removeTokenUserInfo();
-            router.navigate('/login');
+            router.navigate('/');
         }
         return Promise.reject(error);
     }
 );
 
-/**
- * 封装请求方法，统一处理请求队列
- */
-export const request = {
-    get: instance.get,
-    post: function<T, R>(url: string, data?: T): Promise<R> {
-        const promise = instance.post<T, R>(url, data);
-        return promise;
-    },
-    put: instance.put,
-    delete: instance.delete
-};
+export const request = instance

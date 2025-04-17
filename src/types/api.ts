@@ -20,4 +20,9 @@ export interface AuthResponse {
     token: string;
     user: UserInfo;
 }
+export interface AuthErrorResponse {
+    code: 401;
+    message: string;
+}
+
 
