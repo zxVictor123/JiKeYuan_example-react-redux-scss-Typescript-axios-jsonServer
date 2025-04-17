@@ -1,18 +1,13 @@
 import { FC, useState, useRef } from 'react';
 import logo from '../../assets/logo.png';
 import './index.scss';
-import { useDispatch } from 'react-redux';
-import { setToken, setUserInfo } from '../../store/modules/userSlice';
 import { useNavigate } from 'react-router-dom';
 import debounce from '../../utils/debounce'
 import { message } from 'antd';
-import { authApi } from '../../api/auth';
-import type { RegisterParams } from '../../types/api';
 import useAuth from '../../hooks/useAuth';
 
 const Register: FC = () => {
     // 获取一些函数
-    const dispatch = useDispatch()
     const navigate = useNavigate()
     const {register} = useAuth()
 

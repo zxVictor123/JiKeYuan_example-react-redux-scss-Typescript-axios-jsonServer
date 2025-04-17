@@ -70,7 +70,7 @@ server.post('/register', (req, res) => {
     // 返回成功响应
     res.json({
         code: 200,
-        data: {
+        authData: {
             token,
             user: {
                 id: newUser.id,
@@ -121,14 +121,13 @@ server.post('/login', (req, res) => {
     });
 });
 
-// 获取频道接口
-server.get('/channel', (req, res) => {
-    const channels = db.get('channel').value();
-    res.json({
+server.get('channel',(req,res) => {
+    const channels = db.get('channel').value()
+    db.json({
         code: 200,
         data: channels
-    });
-});
+    })
+})
 
 // 启动服务器
 const PORT = 3001;
