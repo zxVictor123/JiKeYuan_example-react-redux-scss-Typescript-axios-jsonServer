@@ -14,11 +14,11 @@ const routes: RouteObject[] = [
         element: <Login />
     },
     {
-        path: '/Register',
+        path: '/register',
         element: <Register /> 
     },
     {
-        path: '/Layout',
+        path: '/layout',
         element: <AuthRouteGuard><Layout /></AuthRouteGuard>,
         children: [
             {
@@ -26,11 +26,11 @@ const routes: RouteObject[] = [
                 element: <Home />
             },
             {
-                path: 'Article',
+                path: 'article',
                 element: <Article />
             },
             {
-                path: 'Publish',
+                path: 'publish',
                 element: <Publish />
             }
         ]

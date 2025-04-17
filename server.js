@@ -123,7 +123,7 @@ server.post('/login', (req, res) => {
     // 返回成功响应
     res.json({
         code: 200,
-        data: {
+        authData: {
             token,
             user: {
                 id: user.id,

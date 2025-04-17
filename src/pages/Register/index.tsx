@@ -8,12 +8,14 @@ import debounce from '../../utils/debounce'
 import { message } from 'antd';
 import { authApi } from '../../api/auth';
 import type { RegisterParams } from '../../types/api';
+import useAuth from '../../hooks/useAuth';
 
 const Register: FC = () => {
     // 获取一些函数
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
+    const {register} = useAuth()
+
     // 用useState管理仅本页面使用的局部状态
     const [username, changeUsername] = useState('');
     const [password, changePassword] = useState('');
@@ -57,34 +59,20 @@ const Register: FC = () => {
 
     // 处理表单提交
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-        if (isButtonDisable) return
-        
-        try {
-            const registerParams: RegisterParams = { username, password };
-            const response = await authApi.register(registerParams);
-            
-            if (response.token) {
-                dispatch(setToken(response.token))
-                dispatch(setUserInfo(response.user))
-                message.success('注册成功');
-                
-                // 清空状态
-                changeUsername('')
-                changePassword('')
-                setHasFocused(false)
-                
-                // 清空输入框的值
-                if (usernameInputRef.current) usernameInputRef.current.value = '';
-                if (passwordInputRef.current) passwordInputRef.current.value = '';
-                
-                navigate('/Layout')
-            }
-        } catch (error) {
-            // 错误处理已经在 errorHandler 中统一处理
-            console.error('注册失败:', error)
+        e.preventDefault();
+    
+        if (!username || !password) {
+          message.error("请输入用户名和密码");
+          return;
         }
-    }
+    
+        try {
+          await register({ username, password });
+          // 不需要手动 navigate，useAuth 已经处理了跳转
+        } catch (error) {
+          console.error("登录错误:", error); // 仅记录错误，错误提示已在 useAuth 中处理
+        }
+      };
 
     return (
         <div className="registerPage-container">

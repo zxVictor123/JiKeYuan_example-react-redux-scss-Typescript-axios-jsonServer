@@ -1,68 +1,66 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { message } from 'antd';
-import { authApi } from '../api/auth';
-import { setToken, setUserInfo } from '../store/modules/userSlice';
-import type { LoginParams, RegisterParams } from '../types/api';
+import { LoginParams, RegisterParams } from "../types/api";
+import { authApi } from "../api/auth";
+import { useDispatch } from "react-redux";
+import { setUserInfo, setToken } from "../store/modules/userSlice";
+import { useState } from "react";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom"; // 添加导航
 
+const useAuth = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate(); // 获取导航函数
+  const [loading, setLoading] = useState(false);
 
-export const useAuth = () => {
-    const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
+  const login = async (values: LoginParams) => {
+    setLoading(true);
+    try {
+      const response = await authApi.login(values);
+      if(response) {
+        console.log('从后端获取数据成功')
+        dispatch(setToken(response.token));
+        dispatch(setUserInfo(response.user));
+        console.log('成功dispatch数据到store中')
+      }else {
+        console.log('从后端获取数据失败')
+      }
+      
+      message.success("登录成功！");
+      navigate("/layout"); // 登录成功后自动跳转
+    } catch (error: any) {
+      message.error(`登录失败: ${error.message}`);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    /**
-     * 登录
-     * @param values 登录参数
-     */
-    const login = async (values: LoginParams) => {
-        setLoading(true);
-        try {
-            const response = await authApi.login(values);
-            
-            // 存储 token 和用户信息
-            dispatch(setToken(response.token));
-            dispatch(setUserInfo(response.user));
-            
-            message.success('登录成功');
-            return response;
-        } catch (error: any) {
-            // 处理重复请求的情况
-            if (error.message === '请求已在进行中') {
-                message.info('登录请求正在处理中...');
-            } else {
-                message.error('登录失败：' + error.message);
-            }
-            throw error;
-        } finally {
-            setLoading(false);
+  const register = async (values: RegisterParams) => {
+    setLoading(true);
+    try {
+        const response = await authApi.register(values);
+        if(response) {
+          console.log('从后端获取数据成功')
+          dispatch(setToken(response.token));
+          dispatch(setUserInfo(response.user));
+          console.log('成功dispatch数据到store中')
+        }else {
+          console.log('从后端获取数据失败')
         }
-    };
+      message.success("注册成功！");
+      navigate("/layout"); // 注册成功后跳转
+    } catch (error: any) {
+      message.error(`注册失败: ${error.message}`);
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    /**
-     * 注册
-     * @param values 注册参数
-     */
-    const register = async (values: RegisterParams) => {
-        setLoading(true);
-        try {
-            const response = await authApi.register(values);
-            message.success('注册成功');
-            return response;
-        } catch (error: any) {
-            if (error.message === '请求已在进行中') {
-                message.info('注册请求正在处理中...');
-            } else {
-                message.error('注册失败：' + error.message);
-            }
-            throw error;
-        } finally {
-            setLoading(false);
-        }
-    };
+  return {
+    login,
+    register,
+    loading,
+  };
+};
 
-    return {
-        loading,
-        login,
-        register
-    };
-}; 
+export default useAuth;

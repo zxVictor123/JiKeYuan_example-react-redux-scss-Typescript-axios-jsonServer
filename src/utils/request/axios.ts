@@ -4,6 +4,7 @@ import { removeTokenUserInfo } from "../../store/modules/userSlice";
 import router from "../../router";
 import { requestQueue } from './requestQueue';
 
+
 /**
  * 创建 axios 实例
  */
@@ -46,13 +47,13 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     (response: AxiosResponse) => {
         const { data } = response;
-        
+        const {authData} = data
         // 如果响应中包含 token，需要解码
-        if (data?.token) {
-            data.token = decodeURIComponent(data.token);
+        if(authData?.token) {
+            authData.token = decodeURIComponent(authData.token)
         }
         
-        return data;
+        return authData;
     },
     (error) => {
         // 统一错误处理
