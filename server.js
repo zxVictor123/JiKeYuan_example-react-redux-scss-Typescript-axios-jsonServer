@@ -131,11 +131,12 @@ server.post('/login', (req, res) => {
     });
 });
 
+// 获取频道接口
 server.get('/channel',(req,res) => {
-    const channel = db.get('channel').value()
+    const channels = db.get('channels').value()
     res.json({
         code: 200,
-        channel: channel
+        channels: channels
     })
 })
 

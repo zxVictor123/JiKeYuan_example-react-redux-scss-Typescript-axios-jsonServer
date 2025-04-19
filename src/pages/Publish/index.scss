@@ -5,11 +5,16 @@
     align-items: center;
     .Form-container {
         .title,
-        .channel-select {
+        .channel_select {
             width: 30rem;
         }
         .picture-number-radio {
 
+        }
+        .picture_upload {
+            width: 3rem;
+            aspect-ratio: 1/1;
+            font-size:larger
         }
         .content {
             width: 60rem;

@@ -1,10 +1,11 @@
 import  '../../../_variables.scss';
 import Chart from './component/Chart';
 
+
 const Home = () => {
     return(
         <div>
-            <Chart title='三大框架满意度'/>
+            <Chart title='四大框架满意度'/>
         </div>
     )
 }
