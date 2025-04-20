@@ -1,6 +1,4 @@
-/**
- * 用户相关接口类型定义
- */
+// 用户相关接口类型定义
 export interface LoginParams {
     username: string;
     password: string;
@@ -17,12 +15,11 @@ export interface UserInfo {
 }
 
 export interface AuthResponse {
-    token: string;
-    user: UserInfo;
+    token?: string;
+    user?: UserInfo;
+    code?: string;
+    message?: string;
 }
-export interface AuthErrorResponse {
-    code: 401;
-    message: string;
-}
+
 
 

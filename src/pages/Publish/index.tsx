@@ -1,9 +1,10 @@
-import { Form, Input, Select, Button, Radio, Upload, FormInstance } from "antd"
+import { Form, Input, Select, Button, Radio, Upload } from "antd"
 import './index.scss'
 import Quill from "../../components/Publish/Quill"
 import { useState, useEffect } from "react"
-import { channelApi } from "../../api/channel"
-import {ChannelArray,FormValue,pictureValue,typeValue,resFormValue } from "../../types/form"
+import { channelApi } from "../../api/channel/channel"
+import { ChannelArray } from "../../api/channel/type"
+import { pictureValue,typeValue,formValue,resFormValue } from "../../api/articles/type"
 
 
 const Publish = () => {
@@ -22,7 +23,7 @@ const Publish = () => {
         const fetchChannels = async () => {
             try {
                 const res = await channelApi.getChannel()
-                setChannels(res)
+                setChannels(res.channels)
             } catch (error) {
                 console.error('获取频道失败:', error)
             }
@@ -42,7 +43,7 @@ const Publish = () => {
     }
 
     // 表单提交回调
-    const onFinish = (value: FormValue ) => {
+    const onFinish = (value: formValue ) => {
         const {title,content,channel_select: channel_id,picture_number_radio: type,picture_upload: {fileList}} = value
         console.log(value)
         const resFormValue: resFormValue = {

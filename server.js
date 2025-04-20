@@ -24,26 +24,16 @@ const createTokenRecord = (token, userId) => ({
     createdAt: new Date().toISOString()
 });
 
-// 验证用户输入
-const validateUserInput = (username, password) => {
-    // 只检查用户名和密码是否提供，其他验证由前端完成
-    if (!username || !password) {
-        return '用户名或密码不能为空';
-    }
-    return null;
-};
-
 
 // 注册接口
 server.post('/register', (req, res) => {
     const { username, password } = req.body;
 
-    // 输入验证
-    const validationError = validateUserInput(username, password);
-    if (validationError) {
+    // 非空验证
+    if (!username || !password) {
         return res.status(400).json({ 
             code: 400,
-            message: validationError 
+            message: '用户名或密码不能为空'
         });
     }
 
@@ -109,7 +99,7 @@ server.post('/login', (req, res) => {
     if (user.password !== password) {
         return res.status(401).json({
             code: 401,
-            message: '密码错误'
+            message: '用户名或密码错误'
         });
     }
 

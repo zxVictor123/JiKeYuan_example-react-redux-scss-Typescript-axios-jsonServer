@@ -1,8 +1,8 @@
 import axios, { AxiosInstance,InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import { getToken } from '../../token';
-import { removeTokenUserInfo } from "../../../store/modules/userSlice";
-import router from "../../../router";
-import { requestQueue } from '../requestQueue';
+import { getToken } from './token';
+import { removeTokenUserInfo } from "../store/modules/userSlice";
+import router from "../router";
+import { requestQueue } from './requestQueue';
 
 
 
@@ -16,17 +16,30 @@ export const instance: AxiosInstance = axios.create({
     }
 });
 
-/**
- * 请求拦截器
- */
+// 生成请求的唯一标识
+// @param config - 请求配置
+// @returns 请求的唯一标识
+const generateRequestKey = (config: InternalAxiosRequestConfig): string => {
+    // 对请求数据进行排序，确保相同数据但顺序不同时生成相同的key
+    const sortedData = config.data ? 
+        JSON.stringify(Object.keys(config.data).sort().reduce((obj: Record<string, any>, key) => {
+            obj[key] = config.data[key];
+            return obj;
+        }, {})) : 
+        '';
+    
+    return `${config.method}_${config.url}_${sortedData}`;
+};
+
+// 请求拦截器
 instance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         // 生成请求的唯一标识
-        const key = `${config.method}_${config.url}_${JSON.stringify(config.data || {})}`;
+        const key = generateRequestKey(config);
         
         // 检查是否有重复请求
         if (requestQueue.has(key)) {
-            throw new Error('请求已在进行中');
+            return Promise.reject(new Error('请求已在进行中'));
         }
         
         // 将请求标记为正在进行中
@@ -38,6 +51,11 @@ instance.interceptors.request.use(
         if (token && config.headers) {
             config.headers.Authorization = `Bearer ${encodeURIComponent(token)}`;
         }
+        
+        // 将请求添加到队列中
+        const promise = Promise.resolve(config);
+        requestQueue.add(key, promise);
+        
         return config;
     },
     (error) => {
@@ -45,38 +63,26 @@ instance.interceptors.request.use(
     }
 );
 
-/**
- * 响应拦截器
- */
+// 响应拦截器
 instance.interceptors.response.use(
     (response: AxiosResponse) => {
         const { data } = response;
         const {authData} = data;
-        // 获取请求的唯一标识并从队列中移除
-        const requestKey = response.config.headers?._requestKey;
-        if (requestKey) {
-            requestQueue.cancel(requestKey);
-        }
         
         // 如果响应中包含 token，需要解码
         if(authData?.token) {
             authData.token = decodeURIComponent(authData.token);
+            return authData;
         }
-        
-        return authData;
+        return data;
     },
     (error) => {
-        // 从队列中移除请求，即使请求失败
-        const requestKey = error.config?.headers?._requestKey;
-        if (requestKey) {
-            requestQueue.cancel(requestKey);
-        }
-        
         // 统一错误处理
         if (error.response?.status === 401) {
             removeTokenUserInfo();
             router.navigate('/');
         }
+        console.log(error)
         return Promise.reject(error);
     }
 );
