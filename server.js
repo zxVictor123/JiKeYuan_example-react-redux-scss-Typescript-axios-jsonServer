@@ -1,7 +1,4 @@
-/**
- * 模拟后端服务器
- * @author [您的名字]
- */
+// 模拟后端服务器
 const jsonServer = require('json-server');
 const server = jsonServer.create();
 const router = jsonServer.router('db.json');
@@ -33,7 +30,7 @@ server.post('/register', (req, res) => {
     if (!username || !password) {
         return res.status(400).json({ 
             code: 400,
-            message: '用户名或密码不能为空'
+            message: '用户名和密码不能为空'
         });
     }
 
@@ -91,7 +88,7 @@ server.post('/login', (req, res) => {
     if (!user) {
         return res.status(401).json({
             code: 401,
-            message: '用户不存在'
+            message: '用户名或密码错误'
         });
     }
     
